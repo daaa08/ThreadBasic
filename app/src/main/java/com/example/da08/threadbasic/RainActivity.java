@@ -28,12 +28,13 @@ public class RainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rain);
         ground = (FrameLayout) findViewById(R.id.stage);
 
+        // 디바이스의 가로, 세로 길이 구함
         DisplayMetrics metrics = getResources().getDisplayMetrics();
-        deviceWidth = metrics.widthPixels; // 스마트폰의 가로사이즈
+        deviceWidth = metrics.widthPixels;
         deviceHeight = metrics.heightPixels;
 
-        // 커스텀 뷰를 생성하고
-        stage = new Stage(getBaseContext());
+        // 커스텀 뷰를 생성이 (그림이 그려지는 곳)
+       stage = new Stage(getBaseContext());
         // 레이아웃에 담아주면 화면에 커스텀뷰의 내용이 출력된다.
         ground.addView(stage);
 
@@ -60,10 +61,13 @@ public class RainActivity extends AppCompatActivity {
         public void run(){
             while(true){
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(10);  // 0.1초에 한개씩 만든다
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                /*
+                화면 갱신을 위해 postInvalidate를 써 줌 , 스레드에서는 invalidate를 쓰지 못하므로 post를 붙임
+                 */
                 stage.postInvalidate();
             }
         }
@@ -90,7 +94,7 @@ public class RainActivity extends AppCompatActivity {
                 paint.setColor(Color.BLUE);
                 rainDrop.paint = paint;
 
-                // 생성한 빗방울을 stage 에 더해준다
+                // 생성한 빗방울을 stage 에 더해준다 ( 계속 그려줘야하기 때문에 )
                 stage.addRainDrop(rainDrop);
 
                 // 생성한 빗방울을 동작 시킨다.
@@ -110,7 +114,8 @@ public class RainActivity extends AppCompatActivity {
     class RainDrop extends Thread {
         Paint paint; // 색깔
 
-        float radius;  // 크기
+        // drawCircle의 값으로 float이 들어가므로 float타입
+        float radius;  // 반지름
         float x; // x 좌표
         float y; // y 좌표
 

@@ -22,7 +22,7 @@ public class ThreadBasicActivity extends AppCompatActivity {
         // 1.1 thread1 실행
         thread.start();  // run() 함수를 실행시켜줌
 
-        // 2 thread 생성2
+        // 2 thread 생성2 - runnable은 Thread안에서만 실행 가능
         Runnable thread2 = new Runnable() {
             @Override
             public void run() {
@@ -42,14 +42,14 @@ public class ThreadBasicActivity extends AppCompatActivity {
 }
 
 
-// 3 thread 생성3
+// 3 thread 생성3 - Thread 클래스를 상속받아서 생성
 class CustomThread extends Thread{
     @Override
     public void run() {
         Log.i("Thread Test", "Hello CustomThread");
     }
 }
-// 4 thread 생성4 - Runnable구현
+// 4 thread 생성4 - Runnable 인터페이스 구현해서 생성
 class CustomRunnable implements Runnable{
     @Override
     public void run() {
